@@ -1,10 +1,19 @@
 const express = require('express');
+var bodyParser = require('body-parser');
+
 
 const app = express();
+app.use(bodyParser.json()); // for parsing application/json
+
 const port = process.env.PORT || 5000;
 
-app.get('/api/hello', (req, res) => {
-    res.send({ express: 'Hello From Express' });
+app.post('/create-user', (req, res) => {
+    console.log(req.body.userName)
+    if (req.body.userName === 'ErrorTrigger') {
+        res.status(400).send({message: 'Something went wrong :(!'});
+        return
+    }
+    res.send({ message: `${req.body.userName} deleted!` });
 });
 
 if (process.env.NODE_ENV === 'production') {
