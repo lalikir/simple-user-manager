@@ -1,12 +1,11 @@
 import React from 'react';
 import ClassNames from 'classnames'
 
-class CreateUser extends React.Component {
+class DeleteUser extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
-            email: '',
+            value: '',
             responseText: '',
             responseError: false,
         };
@@ -16,21 +15,20 @@ class CreateUser extends React.Component {
     }
 
     handleChange(event) {
-        console.log(event.target.id)
-        this.setState({[event.target.id]: event.target.value});
+        this.setState({value: event.target.value});
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
 
         console.log(this.state.value)
-        await fetch('/create-user', {
+        await fetch('/delete-user', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({userName: this.state.userName, userEmail: this.state.email})
+            body: JSON.stringify({userName: this.state.value})
         }).then(res => {
             const isError = res.status !== 200
             this.setState({responseError: isError, })
@@ -44,12 +42,8 @@ class CreateUser extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     <div className="form-group row">
-                        <label htmlFor="userName">Username:</label>
-                        <input type="text" className="form-control" id="userName" placeholder="Your username" value={this.state.userName} onChange={this.handleChange} />
-                    </div>
-                    <div className="form-group row">
-                        <label htmlFor="email">E-mail:</label>
-                        <input type="text" className="form-control" id="email" placeholder="test@example.com" value={this.state.email} onChange={this.handleChange} />
+                        <label htmlFor="usr">Username:</label>
+                        <input type="text" className="form-control" id="usr" placeholder="UserName" value={this.state.value} onChange={this.handleChange} />
                     </div>
                 </label>
                 <div>
@@ -64,4 +58,4 @@ class CreateUser extends React.Component {
     }
 }
 
-export default CreateUser;
+export default DeleteUser;
